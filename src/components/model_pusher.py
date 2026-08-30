@@ -1,19 +1,18 @@
 import sys
 
 import mlflow
-import mlflow.lightgbm
-import mlflow.sklearn
-from lightgbm import LGBMClassifier
-from mlflow.tracking import MlflowClient
+import mlflow.pyfunc
 
 from src.configuration.mlflow_connection import init_mlflow_tracking
 from src.constants import PRODUCTION_ALIAS
 from src.entity.artifact_entity import (
+    DataTransformationArtifact,
     ModelEvaluationArtifact,
     ModelPusherArtifact,
     ModelTrainerArtifact,
 )
 from src.entity.config_entity import ModelPusherConfig
+from src.entity.estimator import CreditRiskModel, MLflowCreditRiskModel
 from src.exception import CustomException
 from src.logger import logging
 from src.utils.main_utils import load_object
@@ -22,10 +21,12 @@ from src.utils.main_utils import load_object
 class ModelPusher:
     def __init__(
         self,
+        data_transformation_artifact: DataTransformationArtifact,
         model_trainer_artifact: ModelTrainerArtifact,
         model_evaluation_artifact: ModelEvaluationArtifact,
         model_pusher_config: ModelPusherConfig,
     ):
+        self.data_transformation_artifact = data_transformation_artifact
         self.model_trainer_artifact = model_trainer_artifact
         self.model_evaluation_artifact = model_evaluation_artifact
         self.model_pusher_config = model_pusher_config
@@ -49,29 +50,25 @@ class ModelPusher:
                     model_version=None,
                 )
 
-            model = load_object(self.model_trainer_artifact.trained_model_file_path)
-            registered_name = self.model_pusher_config.registered_model_name
+            preprocessor = load_object(self.data_transformation_artifact.transformed_object_file_path)
+            trained_model = load_object(self.model_trainer_artifact.trained_model_file_path)
 
-            # LightGBM's Booster isn't a plain sklearn estimator under the
-            # hood, so mlflow.sklearn's newer skops-based serializer refuses
-            # to save it as an "untrusted type". Use LightGBM's own MLflow
-            # flavor instead, which handles this natively.
-            if isinstance(model, LGBMClassifier):
-                log_model_fn = mlflow.lightgbm.log_model
-                log_model_kwargs = {"lgb_model": model}
-            else:
-                log_model_fn = mlflow.sklearn.log_model
-                log_model_kwargs = {"sk_model": model}
+            bundled_model = CreditRiskModel(
+                preprocessing_object=preprocessor, trained_model_object=trained_model
+            )
+            pyfunc_wrapper = MLflowCreditRiskModel(credit_risk_model=bundled_model)
+
+            registered_name = self.model_pusher_config.registered_model_name
 
             with mlflow.start_run(run_name=f"push-{self.model_trainer_artifact.best_model_name}"):
                 mlflow.log_metric("roc_auc", self.model_evaluation_artifact.best_model_metrics.roc_auc)
-                log_model_fn(
-                    **log_model_kwargs,
+                mlflow.pyfunc.log_model(
                     artifact_path="model",
+                    python_model=pyfunc_wrapper,
                     registered_model_name=registered_name,
                 )
 
-            client = MlflowClient()
+            client = mlflow.tracking.MlflowClient()
             latest_version = max(
                 client.search_model_versions(f"name='{registered_name}'"),
                 key=lambda v: int(v.version),
@@ -79,7 +76,8 @@ class ModelPusher:
 
             client.set_registered_model_alias(registered_name, PRODUCTION_ALIAS, latest_version.version)
             logging.info(
-                f"Promoted {registered_name} v{latest_version.version} to '{PRODUCTION_ALIAS}' alias"
+                f"Promoted {registered_name} v{latest_version.version} to '{PRODUCTION_ALIAS}' alias "
+                f"(bundled: preprocessor + {self.model_trainer_artifact.best_model_name})"
             )
 
             return ModelPusherArtifact(

@@ -110,12 +110,14 @@ class TrainPipeline:
 
     def start_model_pusher(
         self,
+        data_transformation_artifact: DataTransformationArtifact,
         model_trainer_artifact: ModelTrainerArtifact,
         model_evaluation_artifact: ModelEvaluationArtifact,
     ) -> ModelPusherArtifact:
         try:
             logging.info("Starting model pusher")
             model_pusher = ModelPusher(
+                data_transformation_artifact=data_transformation_artifact,
                 model_trainer_artifact=model_trainer_artifact,
                 model_evaluation_artifact=model_evaluation_artifact,
                 model_pusher_config=self.model_pusher_config,
@@ -152,7 +154,7 @@ class TrainPipeline:
             print(model_evaluation_artifact)
 
             model_pusher_artifact = self.start_model_pusher(
-                model_trainer_artifact, model_evaluation_artifact
+                data_transformation_artifact, model_trainer_artifact, model_evaluation_artifact
             )
             print(model_pusher_artifact)
             # Prediction pipeline + FastAPI serving get wired in next.

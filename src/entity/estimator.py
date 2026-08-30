@@ -5,6 +5,7 @@ from sklearn.pipeline import Pipeline
 
 from src.exception import CustomException
 from src.logger import logging
+import mlflow.pyfunc
 
 
 class CreditRiskModel:
@@ -37,3 +38,23 @@ class CreditRiskModel:
 
     def __str__(self):
         return f"CreditRiskModel(model={type(self.trained_model_object).__name__})"
+
+    import mlflow.pyfunc
+
+
+class MLflowCreditRiskModel(mlflow.pyfunc.PythonModel):
+    """
+    Thin adapter so CreditRiskModel (preprocessor + trained model bundled
+    together) can be logged as a single MLflow pyfunc artifact. This is
+    what makes `models:/<name>@production` a self-contained prediction
+    unit - load one thing, call .predict(), done. No separate preprocessor
+    file to track down at serving time.
+    """
+
+    def __init__(self, credit_risk_model: CreditRiskModel):
+        self.credit_risk_model = credit_risk_model
+
+    def predict(self, context, model_input):
+        # Returns probability of default (class 1), which is what the
+        # prediction API and demo form actually want to show.
+        return self.credit_risk_model.predict_proba(model_input)[:, 1]
