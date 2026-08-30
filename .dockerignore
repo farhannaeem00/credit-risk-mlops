@@ -1,0 +1,14 @@
+.git
+.github
+.venv
+venv
+__pycache__
+*.pyc
+artifact/
+mlruns/
+tests/
+.dvc
+.gitignore
+README.md
+projectflow.txt
+crashcourse.txt

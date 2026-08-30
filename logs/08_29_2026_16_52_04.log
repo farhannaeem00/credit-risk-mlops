@@ -1,0 +1,17 @@
+[2026-08-29 16:52:04,232] 11 root - INFO - demo.py started
+[2026-08-29 16:52:04,232] 17 root - INFO - Caught a deliberate error to sanity-check CustomException
+[2026-08-29 16:52:04,233] 20 root - INFO - Logger + exception check passed.
+[2026-08-29 16:52:07,363] 34 root - INFO - Running full pipeline (ingestion + validation)
+[2026-08-29 16:52:07,363] 18 root - INFO - Starting data ingestion
+[2026-08-29 16:52:07,364] 37 root - INFO - Reading raw data from data\application_train.csv
+[2026-08-29 16:52:10,549] 39 root - INFO - Shape of dataframe: (307511, 122)
+[2026-08-29 16:52:10,563] 44 root - INFO - Saving to feature store: artifact\08_29_2026_16_52_07\data_ingestion\feature_store\application_data.csv
+[2026-08-29 16:52:30,304] 57 root - INFO - Performed train/test split on the dataframe
+[2026-08-29 16:52:52,894] 66 root - INFO - Exported train and test CSVs
+[2026-08-29 16:52:52,944] 79 root - INFO - Data ingestion artifact: DataIngestionArtifact(trained_file_path='artifact\\08_29_2026_16_52_07\\data_ingestion\\ingested\\train.csv', test_file_path='artifact\\08_29_2026_16_52_07\\data_ingestion\\ingested\\test.csv')
+[2026-08-29 16:52:53,026] 21 root - INFO - Data ingestion completed
+[2026-08-29 16:52:53,028] 30 root - INFO - Starting data validation
+[2026-08-29 16:52:57,170] 30 root - INFO - Column count check: expected 122, got 122 -> True
+[2026-08-29 16:52:57,493] 30 root - INFO - Column count check: expected 122, got 122 -> True
+[2026-08-29 16:52:57,591] 124 root - INFO - Data validation artifact: DataValidationArtifact(validation_status=True, message='Validation passed.', validation_report_file_path='artifact\\08_29_2026_16_52_07\\data_validation\\report.yaml')
+[2026-08-29 16:52:57,631] 36 root - INFO - Data validation completed

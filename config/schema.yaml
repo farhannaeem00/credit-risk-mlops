@@ -1,0 +1,802 @@
+target_column: TARGET
+id_column: SK_ID_CURR
+numerical_columns:
+- SK_ID_CURR
+- TARGET
+- CNT_CHILDREN
+- AMT_INCOME_TOTAL
+- AMT_CREDIT
+- AMT_ANNUITY
+- AMT_GOODS_PRICE
+- REGION_POPULATION_RELATIVE
+- DAYS_BIRTH
+- DAYS_EMPLOYED
+- DAYS_REGISTRATION
+- DAYS_ID_PUBLISH
+- OWN_CAR_AGE
+- FLAG_MOBIL
+- FLAG_EMP_PHONE
+- FLAG_WORK_PHONE
+- FLAG_CONT_MOBILE
+- FLAG_PHONE
+- FLAG_EMAIL
+- CNT_FAM_MEMBERS
+- REGION_RATING_CLIENT
+- REGION_RATING_CLIENT_W_CITY
+- HOUR_APPR_PROCESS_START
+- REG_REGION_NOT_LIVE_REGION
+- REG_REGION_NOT_WORK_REGION
+- LIVE_REGION_NOT_WORK_REGION
+- REG_CITY_NOT_LIVE_CITY
+- REG_CITY_NOT_WORK_CITY
+- LIVE_CITY_NOT_WORK_CITY
+- EXT_SOURCE_1
+- EXT_SOURCE_2
+- EXT_SOURCE_3
+- APARTMENTS_AVG
+- BASEMENTAREA_AVG
+- YEARS_BEGINEXPLUATATION_AVG
+- YEARS_BUILD_AVG
+- COMMONAREA_AVG
+- ELEVATORS_AVG
+- ENTRANCES_AVG
+- FLOORSMAX_AVG
+- FLOORSMIN_AVG
+- LANDAREA_AVG
+- LIVINGAPARTMENTS_AVG
+- LIVINGAREA_AVG
+- NONLIVINGAPARTMENTS_AVG
+- NONLIVINGAREA_AVG
+- APARTMENTS_MODE
+- BASEMENTAREA_MODE
+- YEARS_BEGINEXPLUATATION_MODE
+- YEARS_BUILD_MODE
+- COMMONAREA_MODE
+- ELEVATORS_MODE
+- ENTRANCES_MODE
+- FLOORSMAX_MODE
+- FLOORSMIN_MODE
+- LANDAREA_MODE
+- LIVINGAPARTMENTS_MODE
+- LIVINGAREA_MODE
+- NONLIVINGAPARTMENTS_MODE
+- NONLIVINGAREA_MODE
+- APARTMENTS_MEDI
+- BASEMENTAREA_MEDI
+- YEARS_BEGINEXPLUATATION_MEDI
+- YEARS_BUILD_MEDI
+- COMMONAREA_MEDI
+- ELEVATORS_MEDI
+- ENTRANCES_MEDI
+- FLOORSMAX_MEDI
+- FLOORSMIN_MEDI
+- LANDAREA_MEDI
+- LIVINGAPARTMENTS_MEDI
+- LIVINGAREA_MEDI
+- NONLIVINGAPARTMENTS_MEDI
+- NONLIVINGAREA_MEDI
+- TOTALAREA_MODE
+- OBS_30_CNT_SOCIAL_CIRCLE
+- DEF_30_CNT_SOCIAL_CIRCLE
+- OBS_60_CNT_SOCIAL_CIRCLE
+- DEF_60_CNT_SOCIAL_CIRCLE
+- DAYS_LAST_PHONE_CHANGE
+- FLAG_DOCUMENT_2
+- FLAG_DOCUMENT_3
+- FLAG_DOCUMENT_4
+- FLAG_DOCUMENT_5
+- FLAG_DOCUMENT_6
+- FLAG_DOCUMENT_7
+- FLAG_DOCUMENT_8
+- FLAG_DOCUMENT_9
+- FLAG_DOCUMENT_10
+- FLAG_DOCUMENT_11
+- FLAG_DOCUMENT_12
+- FLAG_DOCUMENT_13
+- FLAG_DOCUMENT_14
+- FLAG_DOCUMENT_15
+- FLAG_DOCUMENT_16
+- FLAG_DOCUMENT_17
+- FLAG_DOCUMENT_18
+- FLAG_DOCUMENT_19
+- FLAG_DOCUMENT_20
+- FLAG_DOCUMENT_21
+- AMT_REQ_CREDIT_BUREAU_HOUR
+- AMT_REQ_CREDIT_BUREAU_DAY
+- AMT_REQ_CREDIT_BUREAU_WEEK
+- AMT_REQ_CREDIT_BUREAU_MON
+- AMT_REQ_CREDIT_BUREAU_QRT
+- AMT_REQ_CREDIT_BUREAU_YEAR
+categorical_columns:
+- NAME_CONTRACT_TYPE
+- CODE_GENDER
+- FLAG_OWN_CAR
+- FLAG_OWN_REALTY
+- NAME_TYPE_SUITE
+- NAME_INCOME_TYPE
+- NAME_EDUCATION_TYPE
+- NAME_FAMILY_STATUS
+- NAME_HOUSING_TYPE
+- OCCUPATION_TYPE
+- WEEKDAY_APPR_PROCESS_START
+- ORGANIZATION_TYPE
+- FONDKAPREMONT_MODE
+- HOUSETYPE_MODE
+- WALLSMATERIAL_MODE
+- EMERGENCYSTATE_MODE
+columns:
+  SK_ID_CURR:
+    dtype: int64
+    nullable: false
+    min: 100002.0
+    max: 456255.0
+  TARGET:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  NAME_CONTRACT_TYPE:
+    dtype: object
+    nullable: false
+    allowed_values:
+    - Cash loans
+    - Revolving loans
+  CODE_GENDER:
+    dtype: object
+    nullable: false
+    allowed_values:
+    - F
+    - M
+    - XNA
+  FLAG_OWN_CAR:
+    dtype: object
+    nullable: false
+    allowed_values:
+    - N
+    - Y
+  FLAG_OWN_REALTY:
+    dtype: object
+    nullable: false
+    allowed_values:
+    - N
+    - Y
+  CNT_CHILDREN:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 19.0
+  AMT_INCOME_TOTAL:
+    dtype: float64
+    nullable: false
+    min: 25650.0
+    max: 117000000.0
+  AMT_CREDIT:
+    dtype: float64
+    nullable: false
+    min: 45000.0
+    max: 4050000.0
+  AMT_ANNUITY:
+    dtype: float64
+    nullable: true
+    min: 1615.5
+    max: 258025.5
+  AMT_GOODS_PRICE:
+    dtype: float64
+    nullable: true
+    min: 40500.0
+    max: 4050000.0
+  NAME_TYPE_SUITE:
+    dtype: object
+    nullable: true
+    allowed_values:
+    - Children
+    - Family
+    - Group of people
+    - Other_A
+    - Other_B
+    - Spouse, partner
+    - Unaccompanied
+  NAME_INCOME_TYPE:
+    dtype: object
+    nullable: false
+    allowed_values:
+    - Businessman
+    - Commercial associate
+    - Maternity leave
+    - Pensioner
+    - State servant
+    - Student
+    - Unemployed
+    - Working
+  NAME_EDUCATION_TYPE:
+    dtype: object
+    nullable: false
+    allowed_values:
+    - Academic degree
+    - Higher education
+    - Incomplete higher
+    - Lower secondary
+    - Secondary / secondary special
+  NAME_FAMILY_STATUS:
+    dtype: object
+    nullable: false
+    allowed_values:
+    - Civil marriage
+    - Married
+    - Separated
+    - Single / not married
+    - Unknown
+    - Widow
+  NAME_HOUSING_TYPE:
+    dtype: object
+    nullable: false
+    allowed_values:
+    - Co-op apartment
+    - House / apartment
+    - Municipal apartment
+    - Office apartment
+    - Rented apartment
+    - With parents
+  REGION_POPULATION_RELATIVE:
+    dtype: float64
+    nullable: false
+    min: 0.00029
+    max: 0.072508
+  DAYS_BIRTH:
+    dtype: int64
+    nullable: false
+    min: -25229.0
+    max: -7489.0
+  DAYS_EMPLOYED:
+    dtype: int64
+    nullable: false
+    min: -17912.0
+    max: 365243.0
+  DAYS_REGISTRATION:
+    dtype: float64
+    nullable: false
+    min: -24672.0
+    max: 0.0
+  DAYS_ID_PUBLISH:
+    dtype: int64
+    nullable: false
+    min: -7197.0
+    max: 0.0
+  OWN_CAR_AGE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 91.0
+  FLAG_MOBIL:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_EMP_PHONE:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_WORK_PHONE:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_CONT_MOBILE:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_PHONE:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_EMAIL:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  OCCUPATION_TYPE:
+    dtype: object
+    nullable: true
+    allowed_values:
+    - Accountants
+    - Cleaning staff
+    - Cooking staff
+    - Core staff
+    - Drivers
+    - HR staff
+    - High skill tech staff
+    - IT staff
+    - Laborers
+    - Low-skill Laborers
+    - Managers
+    - Medicine staff
+    - Private service staff
+    - Realty agents
+    - Sales staff
+    - Secretaries
+    - Security staff
+    - Waiters/barmen staff
+  CNT_FAM_MEMBERS:
+    dtype: float64
+    nullable: true
+    min: 1.0
+    max: 20.0
+  REGION_RATING_CLIENT:
+    dtype: int64
+    nullable: false
+    min: 1.0
+    max: 3.0
+  REGION_RATING_CLIENT_W_CITY:
+    dtype: int64
+    nullable: false
+    min: 1.0
+    max: 3.0
+  WEEKDAY_APPR_PROCESS_START:
+    dtype: object
+    nullable: false
+    allowed_values:
+    - FRIDAY
+    - MONDAY
+    - SATURDAY
+    - SUNDAY
+    - THURSDAY
+    - TUESDAY
+    - WEDNESDAY
+  HOUR_APPR_PROCESS_START:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 23.0
+  REG_REGION_NOT_LIVE_REGION:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  REG_REGION_NOT_WORK_REGION:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  LIVE_REGION_NOT_WORK_REGION:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  REG_CITY_NOT_LIVE_CITY:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  REG_CITY_NOT_WORK_CITY:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  LIVE_CITY_NOT_WORK_CITY:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  ORGANIZATION_TYPE:
+    dtype: object
+    nullable: false
+  EXT_SOURCE_1:
+    dtype: float64
+    nullable: true
+    min: 0.0145681324124455
+    max: 0.962692770561306
+  EXT_SOURCE_2:
+    dtype: float64
+    nullable: true
+    min: 8.173616518884397e-08
+    max: 0.8549996664047012
+  EXT_SOURCE_3:
+    dtype: float64
+    nullable: true
+    min: 0.0005272652387098
+    max: 0.8960095494948396
+  APARTMENTS_AVG:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  BASEMENTAREA_AVG:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  YEARS_BEGINEXPLUATATION_AVG:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  YEARS_BUILD_AVG:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  COMMONAREA_AVG:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  ELEVATORS_AVG:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  ENTRANCES_AVG:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  FLOORSMAX_AVG:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  FLOORSMIN_AVG:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  LANDAREA_AVG:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  LIVINGAPARTMENTS_AVG:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  LIVINGAREA_AVG:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  NONLIVINGAPARTMENTS_AVG:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  NONLIVINGAREA_AVG:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  APARTMENTS_MODE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  BASEMENTAREA_MODE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  YEARS_BEGINEXPLUATATION_MODE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  YEARS_BUILD_MODE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  COMMONAREA_MODE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  ELEVATORS_MODE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  ENTRANCES_MODE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  FLOORSMAX_MODE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  FLOORSMIN_MODE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  LANDAREA_MODE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  LIVINGAPARTMENTS_MODE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  LIVINGAREA_MODE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  NONLIVINGAPARTMENTS_MODE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  NONLIVINGAREA_MODE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  APARTMENTS_MEDI:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  BASEMENTAREA_MEDI:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  YEARS_BEGINEXPLUATATION_MEDI:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  YEARS_BUILD_MEDI:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  COMMONAREA_MEDI:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  ELEVATORS_MEDI:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  ENTRANCES_MEDI:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  FLOORSMAX_MEDI:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  FLOORSMIN_MEDI:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  LANDAREA_MEDI:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  LIVINGAPARTMENTS_MEDI:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  LIVINGAREA_MEDI:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  NONLIVINGAPARTMENTS_MEDI:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  NONLIVINGAREA_MEDI:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  FONDKAPREMONT_MODE:
+    dtype: object
+    nullable: true
+    allowed_values:
+    - not specified
+    - org spec account
+    - reg oper account
+    - reg oper spec account
+  HOUSETYPE_MODE:
+    dtype: object
+    nullable: true
+    allowed_values:
+    - block of flats
+    - specific housing
+    - terraced house
+  TOTALAREA_MODE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 1.0
+  WALLSMATERIAL_MODE:
+    dtype: object
+    nullable: true
+    allowed_values:
+    - Block
+    - Mixed
+    - Monolithic
+    - Others
+    - Panel
+    - Stone, brick
+    - Wooden
+  EMERGENCYSTATE_MODE:
+    dtype: object
+    nullable: true
+    allowed_values:
+    - 'No'
+    - 'Yes'
+  OBS_30_CNT_SOCIAL_CIRCLE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 348.0
+  DEF_30_CNT_SOCIAL_CIRCLE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 34.0
+  OBS_60_CNT_SOCIAL_CIRCLE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 344.0
+  DEF_60_CNT_SOCIAL_CIRCLE:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 24.0
+  DAYS_LAST_PHONE_CHANGE:
+    dtype: float64
+    nullable: true
+    min: -4292.0
+    max: 0.0
+  FLAG_DOCUMENT_2:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_3:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_4:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_5:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_6:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_7:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_8:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_9:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_10:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_11:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_12:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_13:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_14:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_15:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_16:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_17:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_18:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_19:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_20:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  FLAG_DOCUMENT_21:
+    dtype: int64
+    nullable: false
+    min: 0.0
+    max: 1.0
+  AMT_REQ_CREDIT_BUREAU_HOUR:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 4.0
+  AMT_REQ_CREDIT_BUREAU_DAY:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 9.0
+  AMT_REQ_CREDIT_BUREAU_WEEK:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 8.0
+  AMT_REQ_CREDIT_BUREAU_MON:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 27.0
+  AMT_REQ_CREDIT_BUREAU_QRT:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 261.0
+  AMT_REQ_CREDIT_BUREAU_YEAR:
+    dtype: float64
+    nullable: true
+    min: 0.0
+    max: 25.0

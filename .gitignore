@@ -1,0 +1,19 @@
+# artifacts / data
+artifact/
+*.csv
+!config/*.csv
+mlruns/
+mlartifacts/
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# secrets
+kaggle.json
+.dvc/config.local
+data/

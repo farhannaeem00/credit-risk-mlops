@@ -1,0 +1,30 @@
+------------------------------- setup.py & pyproject.toml -------------------------------
+
+Why we need these:
+Our pipeline code lives under src/ as a real Python package (src/components,
+src/entity, src/pipeline, etc). Rather than fighting with sys.path hacks or
+relative imports, we install our own project as an editable local package.
+That's what "-e ." at the bottom of requirements.txt does — it runs
+`pip install -e .`, which reads setup.py / pyproject.toml and registers
+"src" as an importable package on your machine, linked back to this folder.
+
+Result: anywhere in the project you can just write:
+    from src.entity.config_entity import DataIngestionConfig
+    from src.exception import CustomException
+    from src.logger import logging
+
+...instead of relative-import gymnastics. Any edit you make to a file under
+src/ is picked up immediately (no reinstall needed) because it's an
+*editable* install.
+
+setup.py    -> the classic, always-works way to define the package (name,
+               version, which folders count as packages via find_packages()).
+pyproject.toml -> the modern declarative version of the same metadata, used
+               by newer build tooling. We keep both for compatibility;
+               setup.py is what pip actually executes, pyproject.toml is
+               increasingly the standard other tools (linters, build
+               backends) look for.
+
+After `pip install -r requirements.txt`, run `pip list` and confirm you see
+"credit-risk-mlops" in the list — that's your own project, installed
+locally.

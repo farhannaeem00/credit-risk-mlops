@@ -1,0 +1,124 @@
+Project: Credit Risk MLOps — Home Credit Default Risk
+This is the adapted version of the reference project's flow. Same shape,
+zero paid cloud services. AWS -> DagsHub (MLflow + DVC) + Render + GHCR.
+MongoDB Atlas free tier (M0) is kept, same as the reference project.
+
+1. Create project template by executing template.py file (done).
+2. setup.py and pyproject.toml wire up local package imports (done).
+   >> See crashcourse.txt for why.
+3. Create a virtual env, activate it, install requirements.txt
+   conda create -n creditrisk python=3.10 -y
+   conda activate creditrisk
+   pip install -r requirements.txt
+4. Run "pip list" to confirm local package "credit-risk-mlops" is installed.
+
+----------------------------------------------- Kaggle + MongoDB Setup -----------------------------------------------
+5. Create a Kaggle account, go to Account settings -> "Create New API Token"
+   -> downloads kaggle.json. Place at ~/.kaggle/kaggle.json (chmod 600).
+6. Sign up to MongoDB Atlas, create a project, create an M0 (free forever,
+   no card) cluster.
+7. Setup DB username/password, create DB user.
+8. Network Access -> add IP "0.0.0.0/0" (dev convenience; fine for a
+   portfolio project, not for real production secrets).
+9. Get Connection String (Drivers -> Python 3.6+), save it — this becomes
+   the MONGODB_URL env var, same pattern as before.
+10. Download Home Credit Default Risk data via Kaggle API
+   (application_train.csv, application_test.csv — skip the 6 auxiliary
+   tables for v1 to keep scope tractable).
+11. Push application_train.csv into MongoDB Atlas as the raw data store
+   (key-value / document format) — this is the "source of truth" the
+   data_ingestion component reads from, exactly like the reference project.
+12. Browse the collection in Atlas to confirm the data landed correctly.
+
+-------------------------------- DagsHub: DVC + MLflow setup --------------------------------
+13. Create a free DagsHub account, create a repo (connect it to this
+    GitHub repo). This gives you, for free:
+      - a DVC remote (10GB) for data/artifact versioning
+      - a hosted MLflow tracking server + model registry
+14. `dvc init`, `dvc remote add origin https://dagshub.com/<user>/<repo>.s3`
+    (see DagsHub's DVC integration docs for the exact auth commands).
+15. Set MLFLOW_TRACKING_URI to
+    https://dagshub.com/<user>/<repo>.mlflow (used by model_trainer /
+    model_evaluation to log runs).
+
+---------------------------------- logging & exception ----------------------------------
+16. Write src/logger and src/exception, sanity-check via demo.py.
+
+----------------------------------------------- Data Ingestion -----------------------------------------------
+17. Declare constants in src/constants/__init__.py.
+18. src/configuration/mongo_db_connection.py — connects to Atlas using
+    MONGODB_URL.
+19. src/data_access/credit_data.py — pulls the collection from Mongo,
+    converts to a DataFrame.
+20. src/entity/config_entity.py — DataIngestionConfig class.
+21. src/entity/artifact_entity.py — DataIngestionArtifact class.
+22. src/components/data_ingestion.py — orchestrates: Mongo -> DataFrame ->
+    train/test split -> saved to artifact dir (also DVC-tracked).
+23. Wire into src/pipeline/training_pipeline.py, run via demo.py.
+24. Set MONGODB_URL as an env var (same bash/powershell pattern as before)
+    and add "artifact/" to .gitignore.
+
+---------------------------- Data Validation, Data Transformation & Model Trainer ----------------------------
+25. src/utils/main_utils.py + config/schema.yaml — describe expected
+    columns/dtypes/ranges for application_train.csv.
+26. src/components/data_validation.py — schema checks using Pandera
+    (missing columns, dtype drift, out-of-range values) -> pass/fail
+    artifact + validation report.
+27. src/components/data_transformation.py — cleaning (e.g. the
+    DAYS_EMPLOYED anomaly), encoding, imputation, scikit-learn Pipeline,
+    saved as a joblib artifact. Add src/entity/estimator.py for the
+    wrapper class combining preprocessing + model.
+28. src/components/model_trainer.py — trains all 3 candidate models
+    (Logistic Regression, Random Forest, LightGBM), logs params/metrics to
+    MLflow (DagsHub) for each run.
+
+----------------------------------------- Model Evaluation & Registry -----------------------------------------
+29. src/components/model_evaluation.py — pulls all 3 runs from MLflow,
+    scores against the agreed criteria (ROC-AUC primary, PR-AUC + recall
+    secondary, model size / latency as a practical tiebreaker), picks the
+    best.
+30. src/entity/mlflow_estimator.py — push/pull helper against the MLflow
+    Model Registry (this replaces the reference project's s3_estimator.py).
+31. src/components/model_pusher.py — promotes the winning run's model to
+    "Production" stage in the registry.
+
+---------------------------------------------- Serving ----------------------------------------------
+32. src/pipeline/prediction_pipeline.py — loads the Production model from
+    the registry, exposes a predict(df) function.
+33. app.py — FastAPI app: POST /predict (JSON in, pydantic-validated),
+    GET / serves templates/loan_default_form.html (a simple form UI,
+    same idea as the reference project's vehicledata.html) using
+    static/css/style.css.
+34. tests/ — pytest for data validation rules and for the API
+    (FastAPI TestClient hitting /predict with a known input).
+
+------------------------------------------------ CI/CD ------------------------------------------------
+35. Dockerfile + .dockerignore.
+36. .github/workflows/ci.yaml — on every PR: ruff lint + pytest. Free and
+    unlimited since this is a public repo.
+37. .github/workflows/cd.yaml — on merge to main: build Docker image,
+    push to GitHub Container Registry (ghcr.io — free, unlimited for
+    public repos, replaces AWS ECR), then curl Render's deploy hook URL.
+38. Create a free Render account (no card), "New Web Service" -> connect
+    this GitHub repo -> Render builds from the Dockerfile automatically on
+    every push to main. No self-hosted runner, no EC2, no ECR needed.
+39. Set repo secrets in GitHub (Settings > Secrets > Actions):
+      MONGODB_URL
+      MLFLOW_TRACKING_URI / DagsHub token
+      RENDER_DEPLOY_HOOK_URL
+40. Push to main -> CI/CD triggers -> app live at
+    https://<your-service>.onrender.com (expect a ~30-60s cold start after
+    idle — free tier trade-off, not a bug).
+
+-------------------------------------------- Monitoring --------------------------------------------
+41. monitoring/drift_report.py — Evidently AI report comparing recent
+    prediction inputs against the training distribution.
+42. A scheduled ("cron") GitHub Action runs this weekly and publishes the
+    HTML report to GitHub Pages (free, unlimited on a public repo) — this
+    is the "monitoring where realistically possible" piece.
+
+Not doing (on purpose, cost-driven):
+ - No AWS S3 / EC2 / ECR / IAM — replaced by DagsHub + Render + GHCR.
+ - No self-hosted GitHub runner — Render builds directly from the repo.
+ - No paid HF Spaces compute — demo UI is served directly by FastAPI
+   (app.py + templates/), no separate hosting needed.

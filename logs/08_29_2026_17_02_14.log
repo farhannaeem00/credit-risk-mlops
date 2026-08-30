@@ -1,0 +1,24 @@
+[2026-08-29 17:02:14,061] 11 root - INFO - demo.py started
+[2026-08-29 17:02:14,061] 17 root - INFO - Caught a deliberate error to sanity-check CustomException
+[2026-08-29 17:02:14,063] 20 root - INFO - Logger + exception check passed.
+[2026-08-29 17:02:17,094] 34 root - INFO - Running full pipeline (ingestion + validation)
+[2026-08-29 17:02:17,094] 28 root - INFO - Starting data ingestion
+[2026-08-29 17:02:17,095] 37 root - INFO - Reading raw data from data\application_train.csv
+[2026-08-29 17:02:20,543] 39 root - INFO - Shape of dataframe: (307511, 122)
+[2026-08-29 17:02:20,558] 44 root - INFO - Saving to feature store: artifact\08_29_2026_17_02_16\data_ingestion\feature_store\application_data.csv
+[2026-08-29 17:02:41,333] 57 root - INFO - Performed train/test split on the dataframe
+[2026-08-29 17:03:00,212] 66 root - INFO - Exported train and test CSVs
+[2026-08-29 17:03:00,255] 79 root - INFO - Data ingestion artifact: DataIngestionArtifact(trained_file_path='artifact\\08_29_2026_17_02_16\\data_ingestion\\ingested\\train.csv', test_file_path='artifact\\08_29_2026_17_02_16\\data_ingestion\\ingested\\test.csv')
+[2026-08-29 17:03:00,300] 31 root - INFO - Data ingestion completed
+[2026-08-29 17:03:00,309] 40 root - INFO - Starting data validation
+[2026-08-29 17:03:04,333] 30 root - INFO - Column count check: expected 122, got 122 -> True
+[2026-08-29 17:03:04,708] 30 root - INFO - Column count check: expected 122, got 122 -> True
+[2026-08-29 17:03:04,798] 124 root - INFO - Data validation artifact: DataValidationArtifact(validation_status=True, message='Validation passed.', validation_report_file_path='artifact\\08_29_2026_17_02_16\\data_validation\\report.yaml')
+[2026-08-29 17:03:04,836] 46 root - INFO - Data validation completed
+[2026-08-29 17:03:04,837] 57 root - INFO - Starting data transformation
+[2026-08-29 17:03:09,801] 57 root - INFO - Cleaned 44324 DAYS_EMPLOYED anomaly values -> NaN
+[2026-08-29 17:03:09,887] 57 root - INFO - Cleaned 11050 DAYS_EMPLOYED anomaly values -> NaN
+[2026-08-29 17:03:10,084] 115 root - INFO - Building preprocessor for 104 numerical and 16 categorical columns
+[2026-08-29 17:03:10,084] 121 root - INFO - Fitting preprocessor on training data
+[2026-08-29 17:03:23,402] 132 root - INFO - Transformed train shape: (246008, 245), test shape: (61503, 245)
+[2026-08-29 17:03:23,632] 64 root - INFO - Data transformation completed

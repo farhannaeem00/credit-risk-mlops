@@ -1,0 +1,3 @@
+[2026-08-29 15:02:35,861] 11 root - INFO - demo.py started
+[2026-08-29 15:02:35,861] 17 root - INFO - Caught a deliberate error to sanity-check CustomException
+[2026-08-29 15:02:35,862] 20 root - INFO - Logger + exception check passed.

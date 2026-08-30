@@ -1,0 +1,36 @@
+# --- core data / ml ---
+pandas
+numpy
+scikit-learn
+lightgbm
+
+# --- data source / storage ---
+pymongo
+certifi
+python-dotenv
+PyYAML
+kaggle
+
+# --- experiment tracking, versioning ---
+mlflow
+dagshub
+dvc
+
+# --- data validation & monitoring ---
+pandera
+evidently
+
+# --- serving ---
+fastapi
+uvicorn[standard]
+jinja2
+pydantic
+
+# --- testing / quality ---
+pytest
+pytest-cov
+ruff
+
+joblib
+# --- local package install ---
+-e .
