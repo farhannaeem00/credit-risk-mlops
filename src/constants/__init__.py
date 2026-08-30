@@ -41,3 +41,21 @@ DATA_TRANSFORMATION_TRANSFORMED_OBJECT_DIR: str = "transformed_object"
 TRANSFORMED_TRAIN_FILE_NAME: str = "train.npy"
 TRANSFORMED_TEST_FILE_NAME: str = "test.npy"
 PREPROCESSING_OBJECT_FILE_NAME: str = "preprocessing.joblib"
+
+# --- Model Trainer ---
+MODEL_TRAINER_DIR_NAME: str = "model_trainer"
+MODEL_TRAINER_TRAINED_MODEL_DIR: str = "trained_model"
+MODEL_TRAINER_TRAINED_MODEL_NAME: str = "model.joblib"
+MODEL_TRAINER_EXPECTED_ROC_AUC: float = 0.65  # sanity floor, not the bar we're aiming for
+
+DAGSHUB_REPO_OWNER: str = "farhannaeem00"
+DAGSHUB_REPO_NAME: str = "credit-risk-mlops"
+MLFLOW_EXPERIMENT_NAME: str = "home-credit-default-risk"
+
+# --- Model Evaluation & Pusher ---
+MODEL_EVALUATION_DIR_NAME: str = "model_evaluation"
+MODEL_EVALUATION_REPORT_FILE_NAME: str = "report.yaml"
+ROC_AUC_TIE_BREAK_DELTA: float = 0.01  # within this, prefer higher PR-AUC over raw ROC-AUC
+
+REGISTERED_MODEL_NAME: str = "home-credit-default-risk-model"
+PRODUCTION_ALIAS: str = "production"

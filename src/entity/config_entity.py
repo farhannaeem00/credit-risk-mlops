@@ -19,6 +19,14 @@ from src.constants import (
     PREPROCESSING_OBJECT_FILE_NAME,
     TRANSFORMED_TEST_FILE_NAME,
     TRANSFORMED_TRAIN_FILE_NAME,
+    MODEL_TRAINER_DIR_NAME,
+    MODEL_TRAINER_EXPECTED_ROC_AUC,
+    MODEL_TRAINER_TRAINED_MODEL_DIR,
+    MODEL_TRAINER_TRAINED_MODEL_NAME,
+    MODEL_EVALUATION_DIR_NAME,
+    MODEL_EVALUATION_REPORT_FILE_NAME,
+
+    REGISTERED_MODEL_NAME,
 )
 
 TIMESTAMP: str = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
@@ -76,3 +84,25 @@ class DataTransformationConfig:
         DATA_TRANSFORMATION_TRANSFORMED_OBJECT_DIR,
         PREPROCESSING_OBJECT_FILE_NAME,
     )
+@dataclass
+class ModelTrainerConfig:
+    model_trainer_dir: str = os.path.join(
+        training_pipeline_config.artifact_dir, MODEL_TRAINER_DIR_NAME
+    )
+    trained_model_file_path: str = os.path.join(
+        model_trainer_dir, MODEL_TRAINER_TRAINED_MODEL_DIR, MODEL_TRAINER_TRAINED_MODEL_NAME
+    )
+    expected_roc_auc: float = MODEL_TRAINER_EXPECTED_ROC_AUC
+
+@dataclass
+class ModelEvaluationConfig:
+    model_evaluation_dir: str = os.path.join(
+        training_pipeline_config.artifact_dir, MODEL_EVALUATION_DIR_NAME
+    )
+    report_file_path: str = os.path.join(model_evaluation_dir, MODEL_EVALUATION_REPORT_FILE_NAME)
+    expected_roc_auc: float = MODEL_TRAINER_EXPECTED_ROC_AUC
+
+
+@dataclass
+class ModelPusherConfig:
+    registered_model_name: str = REGISTERED_MODEL_NAME

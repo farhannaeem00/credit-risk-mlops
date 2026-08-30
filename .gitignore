@@ -17,3 +17,5 @@ venv/
 kaggle.json
 .dvc/config.local
 data/
+
+logs/
